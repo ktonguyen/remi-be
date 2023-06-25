@@ -1,0 +1,12 @@
+node_modules/
+.idea/
+.env
+npm-debug.log
+/internals/pgdiff/bin-osx/pgdiff/changes.sql
+.DS_Store
+production.sql
+.nyc_output
+yarn-error.log
+/tmp
+.eslintcache
+uploads
