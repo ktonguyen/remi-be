@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const supertest_1 = __importDefault(require("supertest"));
-const app_1 = __importDefault(require("../app")); // Import your Express app instance
+const index_1 = __importDefault(require("../index")); // Import your Express app instance
 const websocketServer_1 = require("../websocketServer");
 const time = new Date().getTime();
 const socket_io_client_1 = require("socket.io-client");
@@ -37,7 +37,7 @@ describe('Socket.io Events', () => {
 describe('Authentication Endpoints', () => {
     describe('POST /signin', () => {
         it('should return a token and user information on successful authentication', () => __awaiter(void 0, void 0, void 0, function* () {
-            const response = yield (0, supertest_1.default)(app_1.default)
+            const response = yield (0, supertest_1.default)(index_1.default)
                 .post('/auth/signin').set('Content-Type', 'application/json')
                 .send({ email: '123456a@gmail.com', password: '1' });
             expect(response.status).toBe(200);
@@ -46,7 +46,7 @@ describe('Authentication Endpoints', () => {
             expect(response.body.user).toHaveProperty('email', '123456a@gmail.com');
         }));
         it('should return an error when email or password is invalid', () => __awaiter(void 0, void 0, void 0, function* () {
-            const response = yield (0, supertest_1.default)(app_1.default)
+            const response = yield (0, supertest_1.default)(index_1.default)
                 .post('/auth/signin').set('Content-Type', 'application/json')
                 .send({ email: 'invalid@example.com', password: 'invalidpassword' });
             expect(response.status).toBe(400);
@@ -55,14 +55,14 @@ describe('Authentication Endpoints', () => {
     });
     describe('POST /signup', () => {
         it('should return a success message on successful signup', () => __awaiter(void 0, void 0, void 0, function* () {
-            const response = yield (0, supertest_1.default)(app_1.default)
+            const response = yield (0, supertest_1.default)(index_1.default)
                 .post('/auth/signup').set('Content-Type', 'application/json')
                 .send({ name: 'Nguyen 1', email: `${time}@example.com`, password: 'password123' });
             expect(response.status).toBe(200);
             expect(response.body).toHaveProperty("result", { "success": "success" });
         }));
         it('should return an error when user already exists', () => __awaiter(void 0, void 0, void 0, function* () {
-            const response = yield (0, supertest_1.default)(app_1.default)
+            const response = yield (0, supertest_1.default)(index_1.default)
                 .post('/auth/signup').set('Content-Type', 'application/json')
                 .send({ name: 'Nguyen 1', email: `${time}@example.com`, password: 'password123' });
             expect(response.status).toBe(400);
@@ -73,14 +73,14 @@ describe('Authentication Endpoints', () => {
 describe('Videos', () => {
     describe('POST /share', () => {
         it('should share successfull video', () => __awaiter(void 0, void 0, void 0, function* () {
-            const response = yield (0, supertest_1.default)(app_1.default)
+            const response = yield (0, supertest_1.default)(index_1.default)
                 .post('/auth/signin').set('Content-Type', 'application/json')
                 .send({ email: '123456a@gmail.com', password: '1' });
             expect(response.status).toBe(200);
             expect(response.body).toHaveProperty('token');
             expect(response.body).toHaveProperty('user');
             expect(response.body.user).toHaveProperty('email', '123456a@gmail.com');
-            const resShare = yield (0, supertest_1.default)(app_1.default)
+            const resShare = yield (0, supertest_1.default)(index_1.default)
                 .post('/api/share').set('Content-Type', 'application/json')
                 .set('authorization', `Bearer ${response.body.token}`)
                 .send({ title: '123456a@gmail.com share', url: 'https://youtube.com?v=1111' });
@@ -88,14 +88,14 @@ describe('Videos', () => {
             expect(resShare.body).toHaveProperty('url', 'https://youtube.com?v=1111');
         }));
         it('should return an error when title or url is invalid', () => __awaiter(void 0, void 0, void 0, function* () {
-            const response = yield (0, supertest_1.default)(app_1.default)
+            const response = yield (0, supertest_1.default)(index_1.default)
                 .post('/auth/signin').set('Content-Type', 'application/json')
                 .send({ email: '123456a@gmail.com', password: '1' });
             expect(response.status).toBe(200);
             expect(response.body).toHaveProperty('token');
             expect(response.body).toHaveProperty('user');
             expect(response.body.user).toHaveProperty('email', '123456a@gmail.com');
-            const resShare = yield (0, supertest_1.default)(app_1.default)
+            const resShare = yield (0, supertest_1.default)(index_1.default)
                 .post('/api/share').set('Content-Type', 'application/json')
                 .set('authorization', `Bearer ${response.body.token}`)
                 .send({ title: '123456a@gmail.com share', url: '' });
@@ -105,7 +105,7 @@ describe('Videos', () => {
     });
     describe('POST /videos', () => {
         it('should return list videos', () => __awaiter(void 0, void 0, void 0, function* () {
-            const response = yield (0, supertest_1.default)(app_1.default)
+            const response = yield (0, supertest_1.default)(index_1.default)
                 .post('/api/videos').set('Content-Type', 'application/json')
                 .send({ offset: 0, size: 10 });
             expect(response.status).toBe(200);
