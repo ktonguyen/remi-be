@@ -1,6 +1,6 @@
 import request from 'supertest';
 import express from 'express';
-import app from '../app'; // Import your Express app instance
+import app from '../index'; // Import your Express app instance
 import { Server } from 'socket.io';
 import http from 'http';
 import { SocketIOService } from '../websocketServer';
