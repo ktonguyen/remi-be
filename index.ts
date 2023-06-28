@@ -35,7 +35,7 @@ const server = http.createServer(app);
 SqlService.instance().initialize();
 SocketIOService.instance().initialize(server, {
   cors: {
-    origin: 'https://remi-fe.vercel.app',
+    origin: ['https://remi-fe.vercel.app', 'http://localhost:3000'],
     methods: ['GET', 'POST'], // Allow specific HTTP methods
   }
 });
