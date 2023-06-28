@@ -7,13 +7,15 @@ import { Server, Socket }  from 'socket.io';
 import http from 'http';
 import { SocketIOService } from "./websocketServer";
 import { SqlService } from './dataSqlite';
+import path from 'path';
 
 const app: Application = express();
 
 // Middleware
 app.use(express.json());
 app.use(cors());
-
+app.use(express.static('public'))
+app.use('/static', express.static(path.join(__dirname, 'public')))
 // Routes
 app.use('/auth', authRoutes);
 app.use('/api', protectedRoutes);
