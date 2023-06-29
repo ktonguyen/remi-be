@@ -10,10 +10,16 @@ import { SqlService } from './dataSqlite';
 import path from 'path';
 
 const app: Application = express();
-
+const allowCrossDomain = (req: Request, res: Response, next: any) => {
+  res.header(`Access-Control-Allow-Origin`, `*`);
+  res.header(`Access-Control-Allow-Methods`, `GET,PUT,POST,DELETE`);
+  res.header(`Access-Control-Allow-Headers`, `Content-Type`);
+  next();
+};
 // Middleware
 app.use(express.json());
 app.use(cors());
+app.use(allowCrossDomain);
 app.use(express.static('public'))
 app.use('/static', express.static(path.join(__dirname, 'public')))
 // Routes
