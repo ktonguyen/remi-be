@@ -11,3 +11,4 @@ yarn-error.log
 .eslintcache
 uploads
 ./dist
+./db
